@@ -55,6 +55,14 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     open: config.dev.autoOpenBrowser,
    // publicPath: config.dev.assetsPublicPath,
     proxy: config.dev.proxyTable,
+    watchFiles: {
+      paths: ['src/**/*', 'index.html'],
+      options: {
+        ignored: /node_modules/,
+        aggregateTimeout: 300,
+        poll: 1000,
+      },
+    },
   },
   plugins: [
     new ESLintPlugin({fix: true}),
