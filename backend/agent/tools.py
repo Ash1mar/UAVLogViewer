@@ -86,3 +86,14 @@ def detect_anomalies(log_id: str) -> str:
     except Exception as e:
         return f"Error analyzing anomalies: {str(e)}"
 
+@tool
+def first_rc_loss_time(log_id: str) -> str:
+    """Returns the first timestamp where RC signal was lost."""
+    df = load_log(log_id)
+    if "type" in df.columns and "RSSI" in df.columns:
+        rc_lost = df[df["RSSI"] < 10]  # 视具体字段设置阈值
+        if not rc_lost.empty:
+            return str(int(rc_lost.iloc[0]['time']))
+    return "No RC loss detected"
+
+

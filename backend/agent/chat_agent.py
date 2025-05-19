@@ -31,6 +31,7 @@ from agent.tools import (
     get_flight_duration,
     list_critical_errors,
     detect_anomalies,
+    first_rc_loss_time,
 )
 
 tools = [
@@ -42,4 +43,5 @@ tools = [
     get_flight_duration,
     list_critical_errors,
     detect_anomalies,
+    first_rc_loss_time,
 ]
