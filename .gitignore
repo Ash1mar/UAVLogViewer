@@ -76,7 +76,7 @@ fabric.properties
 .idea/caches/build_file_checksums.ser
 
 # backend/.gitignore
-.env
+backend/.env
 __pycache__/
-*.bin
-*.log
+backend/*.bin
+backend/*.log
