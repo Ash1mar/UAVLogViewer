@@ -23,4 +23,10 @@ def parse_bin(filepath: str) -> pd.DataFrame:
 
     df = pd.DataFrame(msgs)
     df = df.sort_values(by="time").reset_index(drop=True)
+
+    # test
+    print(f"Parsed {len(df)} rows")
+    print("Fields:", df.columns.tolist())
+    print(df.head(3))
+
     return df
