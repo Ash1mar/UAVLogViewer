@@ -3,12 +3,12 @@ uvicorn
 python-multipart
 
 # MAVLink log parser
-pymavlink>=2.4.41
-pandas>=2.2.0
+pymavlink
+pandas
 
 # LangChain & OpenAI
-langchain>=0.1.14
-langchain-openai>=0.0.6
-openai>=1.10.0
-tiktoken>=0.5.1
-python-dotenv>=1.0.1
+langchain
+langchain-openai
+openai
+tiktoken
+python-dotenv
