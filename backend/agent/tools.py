@@ -53,7 +53,7 @@ def list_critical_errors(log_id: str) -> str:
 
 @tool
 def detect_anomalies(log_id: str) -> str:
-    """Analyze flight log and report any anomalies in battery, GPS or flight pattern."""
+    """Use this tool to detect critical flight anomalies based on telemetry logs, such as GPS signal loss, sudden voltage drops, or abrupt altitude changes."""
     df = load_log(log_id)
     results = []
 
@@ -95,5 +95,32 @@ def first_rc_loss_time(log_id: str) -> str:
         if not rc_lost.empty:
             return str(int(rc_lost.iloc[0]['time']))
     return "No RC loss detected"
+
+#hint or suggest strategies
+@tool
+def describe_flight_summary(log_id: str) -> str:
+    """
+    Best used when the user asks for a summary or wants to check for unusual patterns.
+    This tool returns summary statistics for key telemetry fields like Altitude, Voltage, Current, Temperature.
+    The result helps identify flight anomalies and sensor outliers.
+    """
+    df = load_log(log_id)
+    if df.empty:
+        return "Log file could not be parsed or is empty."
+
+    columns = [col for col in ["Alt", "Volt", "Curr", "Temp", "HDop"] if col in df.columns]
+    summary = df[columns].describe().round(2).to_string()
+
+    prompt_hint = (
+        "Please look for potential anomalies such as:\n"
+        "- Sudden altitude drops (check min vs std)\n"
+        "- Very low voltage or high current\n"
+        "- Abnormally high battery temperature\n"
+        "- Large HDop indicating bad GPS lock\n"
+        "Use your judgment to infer potential flight risks based on the stats."
+    )
+
+    return f"Flight telemetry summary:\n{summary}\n\n{prompt_hint}"
+
 
 

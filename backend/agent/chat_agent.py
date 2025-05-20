@@ -3,12 +3,11 @@ from langchain.chat_models import ChatOpenAI
 from langchain.memory import ConversationBufferMemory
 
 from agent.tools import get_max_altitude, first_gps_loss_time
-from agent.tools import detect_anomalies
 
 from dotenv import load_dotenv
 load_dotenv()
 
-llm = ChatOpenAI(temperature=0, model="gpt-3.5-turbo")  # "gpt-4o"
+llm = ChatOpenAI(temperature=0, model="gpt-4o")  # "gpt-4o"
 
 tools = [get_max_altitude, first_gps_loss_time]
 
@@ -20,6 +19,15 @@ agent = initialize_agent(
     agent=AgentType.CHAT_CONVERSATIONAL_REACT_DESCRIPTION,
     memory=memory,
     verbose=True,
+    agent_kwargs={
+        "prefix": (
+            "You are an expert UAV flight log analyst.\n"
+            "You are given access to tools to summarize telemetry and detect anomalies.\n"
+            "⚠️ IMPORTANT: When the user asks about suspicious behavior, or requests summary or anomaly detection,\n"
+            "you MUST call tools like `describe_flight_summary` or `detect_anomalies` to analyze the data before responding.\n"
+            "Do NOT just explain—ALWAYS call a tool if data analysis is required."
+        )
+    }
 )
 
 from agent.tools import (
@@ -32,6 +40,7 @@ from agent.tools import (
     list_critical_errors,
     detect_anomalies,
     first_rc_loss_time,
+    describe_flight_summary,
 )
 
 tools = [
@@ -44,4 +53,5 @@ tools = [
     list_critical_errors,
     detect_anomalies,
     first_rc_loss_time,
+    describe_flight_summary,
 ]

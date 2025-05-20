@@ -17,11 +17,16 @@ app = FastAPI()
 # frontend allowed
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # 实际部署时应收紧
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+@app.get("/")
+def root():
+    return {"message": "Backend is running. See /docs for Swagger UI."}
+
 
 @app.get("/health")
 def health():
